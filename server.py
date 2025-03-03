@@ -1,7 +1,11 @@
 from flask import Flask, request, jsonify
 import requests
+from flask_cors import CORS  # Import CORS
 
 app = Flask(__name__)
+
+# Thêm CORS cho toàn bộ ứng dụng
+CORS(app)
 
 # Thay bằng bot token và chat ID của bạn
 BOT_TOKEN = "6591392740:AAFusEvzSo-0-VdYJGRBUrPtfp8jGsoNiqw"
