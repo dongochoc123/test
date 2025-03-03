@@ -1,34 +1,25 @@
 from flask import Flask, request, jsonify
 import requests
-from flask_cors import CORS
 
 app = Flask(__name__)
 
-# CORS cho phép tất cả các nguồn
-CORS(app, resources={r"/*": {"origins": "*"}})
+BOT_TOKEN = '6591392740:AAFusEvzSo-0-VdYJGRBUrPtfp8jGsoNiqw'
+CHAT_ID = '@ongochoc123'
+TELEGRAM_API_URL = f'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage'
 
-BOT_TOKEN = "6591392740:AAFusEvzSo-0-VdYJGRBUrPtfp8jGsoNiqw"
-CHAT_ID = "@ongochoc123"
-
-TELEGRAM_API_URL = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-
-@app.route('/send-message', methods=['GET'])
+@app.route('/send-message', methods=['POST'])
 def send_message():
-    try:
-        message = request.args.get("message", "")
-        if not message:
-            return jsonify({"error": "No message provided"}), 400
+    data = request.json.get('message', '')
+    if not data:
+        return jsonify({'error': 'No message provided'}), 400
 
-        response = requests.post(TELEGRAM_API_URL, json={
-            "chat_id": CHAT_ID,
-            "text": message,
-            "parse_mode": "Markdown"
-        })
+    response = requests.post(TELEGRAM_API_URL, json={
+        'chat_id': CHAT_ID,
+        'text': data,
+        'parse_mode': 'Markdown'
+    })
 
-        return jsonify(response.json()), response.status_code
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return jsonify(response.json()), response.status_code
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
