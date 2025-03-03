@@ -1,25 +1,21 @@
-from flask import Flask, request, jsonify
-import requests
+function sendToTelegram(data) {
+    const telegramApiUrl = `https://api.telegram.org/bot6591392740:AAFusEvzSo-0-VdYJGRBUrPtfp8jGsoNiqw/sendMessage`;
 
-app = Flask(__name__)
-
-BOT_TOKEN = '6591392740:AAFusEvzSo-0-VdYJGRBUrPtfp8jGsoNiqw'
-CHAT_ID = '@ongochoc123'
-TELEGRAM_API_URL = f'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage'
-
-@app.route('/send-message', methods=['POST'])
-def send_message():
-    data = request.json.get('message', '')
-    if not data:
-        return jsonify({'error': 'No message provided'}), 400
-
-    response = requests.post(TELEGRAM_API_URL, json={
-        'chat_id': CHAT_ID,
-        'text': data,
-        'parse_mode': 'Markdown'
+    fetch(telegramApiUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+            "Accept": "application/json",
+            "Origin": "https://yourwebsite.com" // Thay bằng domain hợp lệ
+        },
+        body: JSON.stringify({
+            chat_id: "@ongochoc123",
+            text: `🔔 *Thông báo mới!* 🔔\n\n${data}`,
+            parse_mode: "Markdown",
+        }),
     })
-
-    return jsonify(response.json()), response.status_code
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+        .then(response => response.json())
+        .then(result => console.log("Gửi thành công:", result))
+        .catch(error => console.error("Lỗi:", error));
+}
