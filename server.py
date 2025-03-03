@@ -1,28 +1,24 @@
 from flask import Flask, request, jsonify
 import requests
-from flask_cors import CORS  # Import CORS
+from flask_cors import CORS
 
 app = Flask(__name__)
 
-# Thêm CORS cho toàn bộ ứng dụng
-CORS(app)
+# CORS cho phép tất cả các nguồn
+CORS(app, resources={r"/*": {"origins": "*"}})
 
-# Thay bằng bot token và chat ID của bạn
 BOT_TOKEN = "6591392740:AAFusEvzSo-0-VdYJGRBUrPtfp8jGsoNiqw"
-CHAT_ID = "@ongochoc123"  # Nếu là nhóm, cần lấy chat_id thật
+CHAT_ID = "@ongochoc123"
 
 TELEGRAM_API_URL = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
 @app.route('/send-message', methods=['GET'])
 def send_message():
     try:
-        # Nhận dữ liệu từ query parameters (cURL gửi lên)
         message = request.args.get("message", "")
-
         if not message:
             return jsonify({"error": "No message provided"}), 400
 
-        # Gửi tin nhắn đến Telegram
         response = requests.post(TELEGRAM_API_URL, json={
             "chat_id": CHAT_ID,
             "text": message,
