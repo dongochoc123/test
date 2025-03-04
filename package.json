@@ -1,0 +1,13 @@
+{
+  "name": "tele",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node tele.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.0.0"
+  }
+}

